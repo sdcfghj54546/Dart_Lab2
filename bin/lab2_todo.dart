@@ -1,41 +1,42 @@
 import 'dart:io';
 
 import 'package:lab2_todo/todo.dart';
+import 'package:ansicolor/ansicolor.dart';
+
+final AnsiPen greenPen = AnsiPen()..green();
+final AnsiPen redPen = AnsiPen()..red();
+final AnsiPen bluePen = AnsiPen()..blue();
+final AnsiPen yellowPen = AnsiPen()..yellow();
 
 void printMenu() {
   print('');
-  print('ToDo список');
+  print(yellowPen('ToDo список'));
   print('add    - добавить задачу');
   print('list   - показать все задачи');
   print('done   - отметить выполненной');
   print('delete - удалить задачу');
   print('exit   - выйти');
 }
-
 // void addTodo(List<Todo> todos) {
 //   stdout.write('Название задачи: ');
 //   String? input = stdin.readLineSync();
-
 //   if (input == null || input.trim().isEmpty) {
 //     print('Ошибка: название не может быть пустым');
 //     return;
 //   }
-
 //   int newId = todos.isEmpty ? 1 : todos.last.id + 1;
 //   todos.add(Todo(id: newId, title: input.trim()));
 //   print('Задача добавлена!');
 // }
 
 void addTodo(List<Todo> todos) {
-  stdout.write('Название задачи: ');
+  stdout.write(bluePen('Название задачи: '));
   String? input = stdin.readLineSync();
-
   if (input == null || input.trim().isEmpty) {
-    print('Ошибка: название не может быть пустым');
+    print(redPen('Ошибка: название не может быть пустым'));
     return;
   }
-  todos.add(Todo(title: input.trim()));
-  print('Задача добавлена!');
+  print(greenPen('Задача добавлена!'));
 }
 
 void listTodos(List<Todo> todos) {
@@ -59,7 +60,6 @@ void completeTodo(List<Todo> todos) {
     print('Ошибка: введите число');
     return;
   }
-
   for (var todo in todos) {
     if (todo.id == id) {
       todo.complete();
@@ -74,13 +74,11 @@ void deleteTodo(List<Todo> todos) {
   stdout.write('ID задачи: ');
   String? input = stdin.readLineSync();
   if (input == null) return;
-
   int? id = int.tryParse(input.trim());
   if (id == null) {
     print('Ошибка: введите число');
     return;
   }
-
   for (int i = 0; i < todos.length; i++) {
     if (todos[i].id == id) {
       todos.removeAt(i);
@@ -94,16 +92,12 @@ void deleteTodo(List<Todo> todos) {
 void main() {
   List<Todo> todos = [];
   printMenu();
-
   while (true) {
     stdout.write('> ');
     String? input = stdin.readLineSync();
-
     if (input == null) continue;
-
     String command = input.trim().toLowerCase();
     if (command.isEmpty) continue;
-
     switch (command) {
       case 'add':
         addTodo(todos);
